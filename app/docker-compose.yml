@@ -1,0 +1,30 @@
+version: "3.7"
+
+services:
+  k8spracdjango:
+    volumes:
+      - static:/static
+    image: k8spracdjango:v1.0
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    ports:
+      - "8000"
+  k8spracdjangonginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: k8spracdjangonginx:v1.0
+    volumes:
+      - static:/static
+    ports:
+      - "80:80"
+    depends_on:
+      - k8spracdjango
+
+volumes:
+  static:
+
