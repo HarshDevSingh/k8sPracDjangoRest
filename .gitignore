@@ -1,5 +1,7 @@
 venv
+.DS_Store
 .idea
+../.DS_Store
 __pycache__
 app/app/__pycache__
 db.sqlite3
