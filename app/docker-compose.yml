@@ -1,6 +1,23 @@
 version: "3.7"
 
 services:
+  k8spracmysqldb:
+    build:
+      context: ./k8sPracMysqlDB
+      dockerfile: Dockerfile
+    image: k8spracmysqldb:v1.0
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASS}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASS}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_db:/var/lib/mysql
+
+
   k8spracdjango:
     volumes:
       - static:/static
@@ -10,9 +27,12 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-
+    depends_on:
+      - k8spracmysqldb
     ports:
       - "8000"
+
+
   k8spracdjangonginx:
     build:
       context: ./nginx
@@ -23,8 +43,9 @@ services:
     ports:
       - "80:80"
     depends_on:
+      - k8spracmysqldb
       - k8spracdjango
-
 volumes:
   static:
+  mysql_db:
 

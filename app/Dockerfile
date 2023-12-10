@@ -1,4 +1,8 @@
-FROM python:3.9.18-alpine
+FROM python:3.8
+
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
 
 RUN pip install --upgrade pip
 COPY . /app
