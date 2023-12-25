@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: django-config
+data:
+  DEBUG : 'True'
+  DB_NAME : 'k8sprac'
+  DB_HOST : '10.103.198.93'
+  DB_PORT : '3306'
+  MYSQL_DB: 'True'
+  DJANGO_SUPERUSER_USERNAME: "admin"
+  DJANGO_SUPERUSER_EMAIL: "admin@admin_test123.com"
+  DJANGO_SUPERUSER_PASSWORD: "admin"

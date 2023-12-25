@@ -30,8 +30,7 @@ services:
     depends_on:
       - k8spracmysqldb
     ports:
-      - "8000"
-
+      - "8000:8000"
 
   k8spracdjangonginx:
     build:
@@ -45,6 +44,7 @@ services:
     depends_on:
       - k8spracmysqldb
       - k8spracdjango
+
 volumes:
   static:
   mysql_db:

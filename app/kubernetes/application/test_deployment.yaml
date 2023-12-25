@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8spracdjango-deployment
+  labels:
+    app: k8spracdjango
+spec:
+  replicas: 1 # Set the number of replicas as needed
+  selector:
+    matchLabels:
+      app: k8spracdjango
+  template:
+    metadata:
+      labels:
+        app: k8spracdjango
+    spec:
+      initContainers:
+        - name: k8spracdjango
+          image: harshdevsingh1992/k8spracdjango:v1.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+              protocol: TCP
+          envFrom:
+            - secretRef:
+                name: django-secrets
+            - configMapRef:
+                name: django-config
+          volumeMounts:
+            - name: staticfiles
+              mountPath: /static/ # Ensure this matches your application's static file directory
+              readOnly: false
+      containers:
+        - name: nginx
+          image: nginx
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          volumeMounts:
+            - name: staticfiles
+              mountPath: /static/
+              readOnly: true
+      volumes:
+        - name: staticfiles
+          emptyDir: {}
+
+# Additional configurations can be added here, such as service definitions, etc.
